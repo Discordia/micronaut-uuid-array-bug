@@ -1,5 +1,5 @@
 plugins {
-    id("io.micronaut.application") version "4.4.4"
+    id("io.micronaut.application") version "4.5.3"
 }
 
 version = "0.1"
@@ -21,15 +21,17 @@ dependencies {
     runtimeOnly("org.yaml:snakeyaml")
 
     testImplementation("io.micronaut.test:micronaut-test-junit5")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:jdbc")
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers:1.21.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.21.0")
+    testImplementation("org.testcontainers:postgresql:1.21.0")
+    testImplementation("org.testcontainers:jdbc:1.21.0")
+    testRuntimeOnly("org.testcontainers:postgresql:1.21.0")
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 application {
@@ -43,10 +45,4 @@ micronaut {
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
-    val dockerHost = providers.environmentVariable("DOCKER_HOST")
-        .orElse("unix:///Users/robertsjodahl/.docker/run/docker.sock")
-    environment("DOCKER_HOST", dockerHost.get())
-    environment("TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE", "/Users/robertsjodahl/.docker/run/docker.sock")
-    jvmArgs("-Duser.home=${System.getProperty("user.home")}")
 }
-
