@@ -1,0 +1,5 @@
+datasources:
+  default:
+    dialect: POSTGRES
+    schema-generate: NONE
+
